@@ -1,6 +1,27 @@
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class DijkstraSAlgorithm<E extends Weightable<E>> {
+  /**
+   *
+   */
+  public enum PathWeightOperation {
+    ADDITION,
+    MULTIPLY,
+    STAR
+  }
+
+  /**
+   *
+   */
+  private PathWeightOperation operationType;
+
+  /**
+   * @param operationType
+   */
+  public DijkstraSAlgorithm(PathWeightOperation operationType) {
+    this.operationType = operationType;
+  }
   /** Dijkstra's Shortest‐Path algorithm.
    @param graph The weighted graph to be searched
    @param start The start vertex
@@ -11,20 +32,22 @@ public class DijkstraSAlgorithm<E extends Weightable<E>> {
                                         double[] dist) {
     int numV = graph.getNumV();
     HashSet<Integer> vMinusS = new HashSet<>(numV);
-// Initialize V–S.
+    // Initialize V–S.
     for (int i = 0; i < numV; i++) {
       if (i != start) {
         vMinusS.add(i);
       }
     }
-// Initialize pred and dist.
+    // Initialize pred and dist.
     for (int v : vMinusS) {
       pred[v] = start;
-      dist[v] = graph.getEdge(start, v).getData().getWeight();
+      var edge = graph.getEdge(start, v);
+      if (edge != null)
+        dist[v] = edge.getData().getWeight();
     }
-// Main loop
+    // Main loop
     while (vMinusS.size() != 0) {
-// Find the value u in V–S with the smallest dist[u].
+      // Find the value u in V–S with the smallest dist[u].
       double minDist = Double.POSITIVE_INFINITY;
       int u = -1;
       for (int v : vMinusS) {
@@ -33,19 +56,41 @@ public class DijkstraSAlgorithm<E extends Weightable<E>> {
           u = v;
         }
       }
-// Remove u from vMinusS.
+      // Remove u from vMinusS.
       vMinusS.remove(u);
 
       // Update the distances.
-      for (int v : vMinusS) {
-        if (graph.isEdge(u, v)) {
-          double weight = graph.getEdge(u, v).getData().getWeight();
-          if (dist[u] + weight < dist[v]) {
-            dist[v] = dist[u] + weight;
-            pred[v] = u;
+      Iterator<Edge<E>> iter = graph.edgeIterator(u);
+      while(iter.hasNext()) {
+        Edge<E> edge = iter.next();
+        double weight = edge.getData().getWeight();
+        int dest = edge.getDest();
+        if (vMinusS.contains(dest)) {
+          var newWeight = calcWeight(dist[u], weight);
+          if (newWeight < dist[dest]) {
+            dist[dest] = newWeight;
+            pred[dest] = u;
           }
         }
       }
     }
+  }
+
+  private double calcWeight(double weight1,double weight2) {
+    double result = 0;
+    switch (operationType) {
+      case ADDITION :
+        result = weight1 + weight2;
+        break;
+      case MULTIPLY :
+        result = weight1 * weight2;
+        break;
+      case STAR :
+        result = weight1 + weight2 - weight1*weight2;
+        break;
+      default:
+        break;
+    }
+    return result;
   }
 }

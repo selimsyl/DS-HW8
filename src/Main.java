@@ -21,5 +21,11 @@ public class Main {
         System.out.println(item.getSource()+"->"+item.getDest());
       }
     }
+    System.out.println("algortihm starts...");
+
+    int[] pred = new int[graph.getNumV()];
+    double[] dist = new double[graph.getNumV()];
+    DijkstraSAlgorithm shortestPath = new DijkstraSAlgorithm(DijkstraSAlgorithm.PathWeightOperation.ADDITION);
+    shortestPath.dijkstrasAlgorithm(graph, 0,pred,dist);
   }
 }
