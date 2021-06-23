@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Main {
 
-  public class Data implements Weightable<Data> {
+  public static class Data implements Weightable<Data> {
     Data() {}
 
     @Override
@@ -13,7 +13,7 @@ public class Main {
     }
   }
   public static void main(String[] args) {
-    Graph<Data> graph = AbstractGraph.createGraph(false, "list");
+    Graph<Data> graph = AbstractGraph.createGraph(false, "list", new Data());
     for (int i = 0; i < graph.getNumV(); ++i) {
       Iterator<Edge<Data>> iter = graph.edgeIterator(i);
       while(iter.hasNext()) {

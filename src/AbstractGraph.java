@@ -33,8 +33,8 @@ public abstract class AbstractGraph implements Graph {
     return directed;
   }
 
-  public static Graph createGraph(boolean isDirected,
-                                  String type) {
+  public static <E extends Weightable<E>> Graph createGraph (boolean isDirected,
+                                  String type,E data) {
     int numV = 500;
     AbstractGraph returnValue = null;
 
@@ -56,7 +56,7 @@ public abstract class AbstractGraph implements Graph {
     int vertice = r.nextInt(high-low) + low;
 
     for (int i = 0; i < numV; ++i) {
-      returnValue.insert(new Edge(r.nextInt(high-low) + low,r.nextInt(high-low) + low ));
+      returnValue.insert(new Edge(r.nextInt(high-low) + low,r.nextInt(high-low) + low , data));
     }
 
     return returnValue;
