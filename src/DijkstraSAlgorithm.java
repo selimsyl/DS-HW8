@@ -49,14 +49,7 @@ public class DijkstraSAlgorithm<E extends Weightable<E>> {
         dist[v] = Double.POSITIVE_INFINITY;
     }
 
-    System.out.print("Dist Array : ");
-    for (double d : dist) {
-      System.out.print((int)d + " ");
-    }
-    System.out.println();
-
     // Main loop
-    System.out.print("Mins :  ");
     while (vMinusS.size() != 0) {
       // Find the value u in V–S with the smallest dist[u].
       double minDist = Double.POSITIVE_INFINITY;
@@ -68,29 +61,25 @@ public class DijkstraSAlgorithm<E extends Weightable<E>> {
         }
       }
       // Remove u from vMinusS.
-//      System.out.print(u + " ");
       vMinusS.remove(u);
 
       // Update the distances.
       Iterator<Edge<E>> iter = graph.edgeIterator(u);
-//      System.out.print(u + " ");
       while(iter.hasNext()) {
         Edge<E> edge = iter.next();
         double weight = edge.getData().getWeight();
         int dest = edge.getDest();
-//        System.out.print("->"+dest);
         if (vMinusS.contains(dest)) {
           var newWeight = calcWeight(dist[u], weight);
           if (newWeight < dist[dest]) {
             dist[dest] = newWeight;
             pred[dest] = u;
-            System.out.println(u + "is new parent of " + dest);
           }
         }
       }
 //      System.out.println();
     }
-    System.out.print("\nPred Array : ");
+    System.out.print("Pred Array : ");
     for (int ele : pred) {
       System.out.print(ele + " ");
     }
