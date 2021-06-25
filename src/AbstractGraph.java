@@ -33,6 +33,13 @@ public abstract class AbstractGraph implements Graph {
     return directed;
   }
 
+  /**
+   * @param isDirected
+   * @param type
+   * @param data array to be stored inside graph`s edges
+   * @param <E>
+   * @return return newly create graph
+   */
   public static <E extends Weightable<E>> Graph createGraph (boolean isDirected,
                                   String type,E[] data) {
     int numV = 500;

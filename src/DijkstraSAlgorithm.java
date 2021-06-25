@@ -3,7 +3,7 @@ import java.util.Iterator;
 
 public class DijkstraSAlgorithm<E extends Weightable<E>> {
   /**
-   *
+   *  enumerators to select how to calculate edge`s weight
    */
   public enum PathWeightOperation {
     ADDITION,
@@ -12,12 +12,12 @@ public class DijkstraSAlgorithm<E extends Weightable<E>> {
   }
 
   /**
-   *
+   *  enumerator variable keep edge`s weight calculation operation
    */
   private PathWeightOperation operationType;
 
   /**
-   * @param operationType
+   * @param operationType to select edge`s weight calculation type
    */
   public DijkstraSAlgorithm(PathWeightOperation operationType) {
     this.operationType = operationType;
@@ -91,6 +91,11 @@ public class DijkstraSAlgorithm<E extends Weightable<E>> {
     System.out.println();
   }
 
+  /**
+   * @param weight1
+   * @param weight2
+   * @return weigths are calculated  according to user selected operation type
+   */
   private double calcWeight(double weight1,double weight2) {
     double result = 0;
     switch (operationType) {

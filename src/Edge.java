@@ -1,3 +1,8 @@
+/**
+ * @param <E> Data to bo stored inside a edge
+ *           it needs to be Weightable<E> for user to select
+ *           weigth type
+ */
 public class Edge<E extends Weightable<E>> {
   private int source;
 
